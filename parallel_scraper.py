@@ -26,13 +26,13 @@ STATE_COLLECTION = "scraper_state"
 # This is the magic fix: Every worker gets its own save file!
 STATE_DOCUMENT_ID = f"scrape_state_{WORKER_ID}"
 
-EXAM_SESSION_ID = "607"
-EXAM_TITLE = "G.C.E. (A/L) Examination - 2024 (After Rescrutiny)"
-EXAM_YEAR = "2024"
+EXAM_SESSION_ID = "667"
+EXAM_TITLE = "G.C.E. (A/L) Examination - 2025"
+EXAM_YEAR = "2025"
 
 MAX_RUNTIME_SECONDS = (5 * 3600) + (45 * 60) 
-CONCURRENCY_LIMIT = 150     
-BATCH_SIZE = 1000          
+CONCURRENCY_LIMIT = 300     
+BATCH_SIZE = 2000          
 
 url = "http://www.results.exams.gov.lk/viewresults.htm"
 headers = {
