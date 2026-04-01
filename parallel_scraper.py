@@ -20,7 +20,7 @@ START_INDEX = int(os.getenv("START_INDEX", "1000000"))
 END_INDEX = int(os.getenv("END_INDEX", "9999999"))
 
 DB_NAME = "exam_database"
-COLLECTION_NAME = "results_2024_al_rescrutiny"
+COLLECTION_NAME = "results_2025_al_rescrutiny"
 STATE_COLLECTION = "scraper_state"
 
 # This is the magic fix: Every worker gets its own save file!
