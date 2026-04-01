@@ -1,0 +1,52 @@
+name: "Parallel Exam Scraper"
+
+on:
+  workflow_dispatch:
+    inputs:
+      worker_id:
+        description: 'Unique Worker Name (e.g., worker_1, worker_2)'
+        required: true
+        default: 'worker_1'
+      start_index:
+        description: 'Starting Index Number (e.g., 1000000)'
+        required: true
+        default: '1000000'
+      end_index:
+        description: 'Ending Index Number (e.g., 1500000)'
+        required: true
+        default: '1500000'
+
+jobs:
+  scrape_job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Parallel Scraper
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          WORKER_ID: ${{ github.event.inputs.worker_id }}
+          START_INDEX: ${{ github.event.inputs.start_index }}
+          END_INDEX: ${{ github.event.inputs.end_index }}
+        run: python parallel_scraper.py
+
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Scraping-Report-${{ github.event.inputs.worker_id }}
+          path: report.md
