@@ -20,7 +20,7 @@ START_INDEX = int(os.getenv("START_INDEX", "500000"))
 END_INDEX = int(os.getenv("END_INDEX", "999999"))
 
 DB_NAME = "exam_database"
-COLLECTION_NAME = "results_2024_al_rescrutiny"
+COLLECTION_NAME = "results_2025_al_rescrutiny"
 STATE_COLLECTION = "scraper_state"
 
 STATE_DOCUMENT_ID = f"scrape_state_{WORKER_ID}"
