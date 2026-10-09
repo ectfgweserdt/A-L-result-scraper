@@ -26,7 +26,7 @@ STATE_COLLECTION = "scraper_state"
 STATE_DOCUMENT_ID = f"scrape_state_{WORKER_ID}"
 
 EXAM_SESSION_ID = "705"
-EXAM_TITLE = "G.C.E.+(A/L)+Examination+-+2025+(After+Rescrutiny)"
+EXAM_TITLE = "G.C.E. (A/L) Examination - 2025 (After Rescrutiny)"
 EXAM_YEAR = "2025"
 
 MAX_RUNTIME_SECONDS = (5 * 3600) + (45 * 60) 
