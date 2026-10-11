@@ -14,7 +14,7 @@ if not MONGO_URI:
     print("❌ ERROR: MONGO_URI environment variable is missing!")
     exit(1)
 
-# Get inputs from Workflow (Now expecting 6-digit bases)
+# Get inputs from Workflow (6-digit bases)
 WORKER_ID = os.getenv("WORKER_ID", "default_worker")
 START_INDEX = int(os.getenv("START_INDEX", "500000"))
 END_INDEX = int(os.getenv("END_INDEX", "999999"))
@@ -63,7 +63,6 @@ def generate_valid_index(base_num):
     return f"{base_num:06d}{check}"
 
 async def fetch_and_parse(session, valid_index_str, semaphore):
-    # Now receives a mathematically guaranteed valid 7-digit string
     data = {
         "examSessionId": EXAM_SESSION_ID,
         "year": EXAM_YEAR,
@@ -92,6 +91,11 @@ async def fetch_and_parse(session, valid_index_str, semaphore):
                             if "z-" in label_raw: key = "zsc"
                             elif "dist" in label_raw: key = "dis"
                             elif "isl" in label_raw: key = "isl"
+                            
+                            # 🛑 Skip redundant static fields to save database storage space
+                            if key in ["exa", "yea", "gen"]:
+                                continue
+                                
                             details[key] = value 
 
                 if not details: return None
@@ -168,7 +172,6 @@ async def main():
 
             batch_end = min(current_base + BATCH_SIZE, END_INDEX + 1)
             
-            # Generate mathematically guaranteed 7-digit IDs on the fly
             tasks = [fetch_and_parse(session, generate_valid_index(idx), semaphore) for idx in range(current_base, batch_end)]
             results = [res for res in await asyncio.gather(*tasks) if res]
             
